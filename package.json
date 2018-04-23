@@ -1,18 +1,52 @@
 {
-  "name": "ambientsoundmix",
+  "name": "myreadinglist",
   "version": "0.1.0",
   "private": true,
+  "now": {
+    "alias": "myreadinglist"
+  },
   "dependencies": {
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "codacy-coverage": "^2.1.0",
+    "firebase": "^4.10.0",
+    "idb-keyval": "^2.3.0",
+    "re-base": "3.2.2",
+    "react": "^16.3.0-alpha.1",
+    "react-dom": "^16.3.0-alpha.1",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.1.1",
+    "react-sortable-hoc": "^0.6.8",
+    "stylelint": "^9.2.0",
+    "stylelint-order": "^0.8.1"
   },
   "devDependencies": {
-    "react-scripts": "1.0.10"
+    "eslint-plugin-babel": "^4.1.2",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.0.0",
+    "node-sass-chokidar": "0.0.3",
+    "npm-run-all": "^4.1.2",
+    "prettier": "^1.11.1",
+    "prop-types": "^15.6.1",
+    "serve": "^6.5.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "dev": "npm-run-all -p watch-css start-js",
+    "start": "serve --single ./build",
+    "precommit": "lint-staged",
+    "build-css": "node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar --include-path ./src --include-path ./node_modules src/ -o src/ --watch --recursive",
+    "start-js": "react-scripts start",
+    "predeploy": "npm run build",
+    "build-js": "react-scripts build",
+    "build": "npm-run-all build-css build-js",
     "test": "react-scripts test --env=jsdom",
+    "codacy-coverage": "cat ./coverage/lcov.info | codacy-coverage",
     "eject": "react-scripts eject"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json,scss}": [
+      "stylelint --fix",
+      "prettier --write",
+      "git add"
+    ]
   }
 }
